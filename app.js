@@ -15,6 +15,7 @@ function exibirTextoNaTela(tag, texto) {
         console.log("Web Speech API não suportada neste navegador.");
     }
 }
+
 function exibirMensagemInicial() {
     exibirTextoNaTela('h1', 'Jogo do número secreto');
     exibirTextoNaTela('p', 'Escolha um número entre 1 e 10');
@@ -23,8 +24,15 @@ function exibirMensagemInicial() {
 exibirMensagemInicial();
 
 function verificarChute() {
-    let chute = document.querySelector('input').value;
+    let chute = parseInt(document.querySelector('input').value);
     
+    // Verifica se o chute está dentro do intervalo permitido
+    if (chute < 1 || chute > numeroLimite) {
+        exibirTextoNaTela('p', 'Escolha um número dentro do padrão definido (entre 1 e 10)');
+        limparCampo();
+        return; // Retorna para evitar que o restante do código seja executado
+    }
+
     if (chute == numeroSecreto) {
         exibirTextoNaTela('h1', 'Acertou!');
         let palavraTentativa = tentativas > 1 ? 'tentativas' : 'tentativa';
@@ -59,7 +67,7 @@ function gerarNumeroAleatorio() {
 }
 
 function limparCampo() {
-    chute = document.querySelector('input');
+    let chute = document.querySelector('input');
     chute.value = '';
 }
 
@@ -68,10 +76,8 @@ function reiniciarJogo() {
     limparCampo();
     tentativas = 1;
     exibirMensagemInicial();
-    document.getElementById('reiniciar').setAttribute('disabled', true)
+    document.getElementById('reiniciar').setAttribute('disabled', true);
 }
-
-
 
 
 
